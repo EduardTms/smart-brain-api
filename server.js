@@ -26,20 +26,33 @@ const database = {
 }
 
 app.get('/', (req, res) => {
-    res.send('Hello World!');
+    res.send(database.users);
 })
 
+// signin --> POST = success/fail
 app.post('/signin', (req, res) => {
-    console.log(req.body.email, req.body.password);
-    console.log(database.users[0].email, database.users[0].password);
     if (
         req.body.email === database.users[0].email && 
         req.body.password === database.users[0].password
         ){
-        res.json('success');
-    } else {
-        res.status(401).send('Invalid credentials');
-    }
+            res.json('success');
+        } else {
+            res.status(401).send('Invalid credentials');
+        }
+    })
+    
+// register --> POST = user
+app.post('/register', (req, res) => {
+    const { email, username, password } = req.body;
+    database.users.push({
+        id: 3,
+        username: username,
+        email: email,
+        password: password,
+        entries: 0,
+        joined: new Date(),
+    });
+    res.json(database.users[database.users.length - 1]);
 })
 
 app.listen(3000, () => {
@@ -49,9 +62,7 @@ app.listen(3000, () => {
 // root route
 // => res = this is working
 
-// signin --> POST = success/fail
 
-// register --> POST = user
 
 // profile/:userId --> GET = user
 
