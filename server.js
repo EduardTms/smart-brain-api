@@ -59,11 +59,25 @@ app.listen(3000, () => {
     console.log('Example app listening on port 3000!');
 })
 
+// profile/:userId --> GET = user
+app.get('/profile/:userId', (req, res) => {
+    const { userId } = req.params;
+    let found = false;
+    database.users.forEach(user => {
+        if (user.id === Number(userId)) {
+            found = true;
+            return res.json(user);
+        } 
+    })
+    if(!found) {
+        res.status(404).send('User not found');
+    }
+})
+
 // root route
 // => res = this is working
 
 
 
-// profile/:userId --> GET = user
 
 // image --> PUT --> user
