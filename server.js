@@ -11,7 +11,7 @@ const database = {
             username: 'eduard',
             email: 'eduard@yahoo.com',
             password: 'admin',
-            entries: 0,
+            entries: 5,
             joined: new Date(),
         },
         {
@@ -74,10 +74,23 @@ app.get('/profile/:userId', (req, res) => {
     }
 })
 
+// image --> PUT --> user
+app.put('/image', (req, res) => {
+    let found = false;
+    database.users.forEach(user => {
+        if (user.id === Number(req.body.id)) {
+            found = true;
+            user.entries ++;
+            return res.json(user.entries);
+        } 
+    })
+    if(!found) {
+        res.status(404).send('User not found');
+    }
+})
+
 // root route
 // => res = this is working
 
 
 
-
-// image --> PUT --> user
