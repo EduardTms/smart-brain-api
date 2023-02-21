@@ -11,7 +11,7 @@ const database = {
     users: [
         {
             id: 1,
-            username: 'eduard',
+            username: 'Eduard',
             email: 'eduard@yahoo.com',
             password: 'admin',
             entries: 5,
@@ -46,7 +46,7 @@ app.post('/signin', (req, res) => {
         req.body.email === database.users[0].email && 
         req.body.password === database.users[0].password
         ){
-            res.json('success');
+            res.json(database.users[0]);
         } else {
             res.status(401).send('Invalid credentials');
         }
