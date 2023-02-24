@@ -88,16 +88,19 @@ app.listen(3000, () => {
 // profile/:userId --> GET = user
 app.get("/profile/:userId", (req, res) => {
   const { userId } = req.params;
-  let found = false;
-  database.users.forEach((user) => {
-    if (user.id === Number(userId)) {
-      found = true;
-      return res.json(user);
-    }
-  });
-  if (!found) {
-    res.status(404).send("User not found");
-  }
+  db.select("*")
+    .from("users")
+    .where({ id: userId })
+    .then((user) => {
+      if (user.length) {
+        res.json(user[0]);
+      } else {
+        res.status(404).send("User not found");
+      }
+    })
+    .catch((err) => {
+      res.status(400).json("error getting user");
+    });
 });
 
 // image --> PUT --> user
