@@ -105,17 +105,17 @@ app.get("/profile/:userId", (req, res) => {
 
 // image --> PUT --> user
 app.put("/image", (req, res) => {
-  let found = false;
-  database.users.forEach((user) => {
-    if (user.id === Number(req.body.id)) {
-      found = true;
-      user.entries++;
-      return res.json(user.entries);
-    }
-  });
-  if (!found) {
-    res.status(404).send("User not found");
-  }
+  const { id } = req.body;
+  db("users")
+    .where("id", "=", id)
+    .increment("entries", 1)
+    .returning("entries")
+    .then((entries) => {
+      res.json(entries[0].entries);
+    })
+    .catch((err) => {
+      res.status(400).json("error getting user");
+    });
 });
 
 // root route
