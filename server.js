@@ -18,38 +18,6 @@ const db = knex({
   },
 });
 
-const database = {
-  users: [
-    {
-      id: 1,
-      username: "Eduard",
-      email: "eduard@yahoo.com",
-      password: "admin",
-      entries: 5,
-      joined: new Date(),
-    },
-    {
-      id: 2,
-      username: "Andrei",
-      email: "Andrei@example.com",
-      password: "admin2",
-      entries: 0,
-      joined: new Date(),
-    },
-  ],
-  login: [
-    {
-      id: "3",
-      has: "",
-      email: "eduard@yahoo.com",
-    },
-  ],
-};
-
-app.get("/", (req, res) => {
-  res.send(database.users);
-});
-
 // signin --> POST = success/fail
 app.post("/signin", (req, res) => {
   db.select("email", "hash")
@@ -136,6 +104,7 @@ app.put("/image", (req, res) => {
     .increment("entries", 1)
     .returning("entries")
     .then((entries) => {
+      // not entirely sure if this is the best way to do this, but it works
       res.json(entries[0].entries);
     })
     .catch((err) => {
