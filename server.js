@@ -52,15 +52,25 @@ app.get("/", (req, res) => {
 
 // signin --> POST = success/fail
 app.post("/signin", (req, res) => {
-  // Load hash from your password DB.
-  if (
-    req.body.email === database.users[0].email &&
-    req.body.password === database.users[0].password
-  ) {
-    res.json(database.users[0]);
-  } else {
-    res.status(401).send("Invalid credentials");
-  }
+  db.select("email", "hash")
+    .from("login")
+    .where("email", "=", req.body.email)
+    .then((data) => {
+      const isValid = bcrypt.compareSync(req.body.password, data[0].hash);
+      if (isValid) {
+        return db
+          .select("*")
+          .from("users")
+          .where("email", "=", req.body.email)
+          .then((user) => {
+            res.json(user[0]);
+          })
+          .catch((err) => res.status(400).json("unable to find user"));
+      } else {
+        res.status(400).json("invalid credentials");
+      }
+    })
+    .catch((err) => res.status(400).json("wrong credentials"));
 });
 
 // register --> POST = user
@@ -87,7 +97,9 @@ app.post("/register", (req, res) => {
             res.json(user[0]);
           });
       })
+      // if everything goes well, return the newly created user
       .then(trx.commit)
+      // if something goes wrong, rollback
       .catch(trx.rollback);
   }).catch((err) => {
     res.status(400).json("Unable to register user");
