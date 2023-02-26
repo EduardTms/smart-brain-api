@@ -1,4 +1,7 @@
 const handleSignin = (req, res, db, bcrypt) => {
+  if (!email || !password) {
+    return res.status(400).json("Please enter all fields");
+  }
   db.select("email", "hash")
     .from("login")
     .where("email", "=", req.body.email)
