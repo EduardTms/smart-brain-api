@@ -49,5 +49,10 @@ app.put("/image", (req, res) => {
   image.handleImage(req, res, db);
 });
 
+// image --> POST --> img
+app.put("/imageURL", (req, res) => {
+  image.handleApiCall(req, res);
+});
+
 // root route
 // => res = this is working
