@@ -1,7 +1,7 @@
 const express = require("express");
+const cors = require("cors");
 const bodyParser = require("body-parser");
 const bcrypt = require("bcrypt-nodejs");
-const cors = require("cors");
 const knex = require("knex");
 // Controllers
 const register = require("./controllers/register");
@@ -24,6 +24,11 @@ const db = knex({
   },
 });
 
+// app routes to localhost:3000
+app.listen(3000, () => {
+  console.log("Example app listening on port 3000!");
+});
+
 // signin --> POST = success/fail
 app.post("/signin", (req, res) => {
   signin.handleSignin(req, res, db, bcrypt);
@@ -32,11 +37,6 @@ app.post("/signin", (req, res) => {
 // register --> POST = user
 app.post("/register", (req, res) => {
   register.handleRegister(req, res, db, bcrypt);
-});
-
-// app routes to localhost:3000
-app.listen(3000, () => {
-  console.log("Example app listening on port 3000!");
 });
 
 // profile/:userId --> GET = user
