@@ -50,7 +50,7 @@ app.put("/image", (req, res) => {
 });
 
 // image --> POST --> img
-app.put("/imageURL", (req, res) => {
+app.post("/imageURL", (req, res) => {
   image.handleApiCall(req, res);
 });
 
