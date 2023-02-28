@@ -18,10 +18,8 @@ const db = knex({
   connection: {
     // 127.0.0.1 is localhost
     // postgresql-fitted-91316 is where the database is hosted (HEROKU)
-    host: "postgresql-fitted-91316",
-    user: "eduard",
-    password: "",
-    database: "smart-brain",
+    host: process.env.DATABASE_URL,
+    ssl: true,
   },
 });
 
