@@ -28,8 +28,8 @@ const db = knex({
 const PORT = process.env.PORT;
 
 // app routes to port 3000
-app.listen(3000, () => {
-  console.log(`Server is listening on port ${3000}`);
+app.listen(PORT || 3000, () => {
+  console.log(`Server is listening on port ${PORT}`);
 });
 
 // signin --> POST = success/fail
