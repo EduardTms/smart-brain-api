@@ -23,7 +23,10 @@ const db = knex({
     // 127.0.0.1 is localhost
     // postgresql-fitted-91316 is where the database is hosted (HEROKU)
     connectionString: process.env.DATABASE_URL,
-    ssl: true,
+    // this is not secure for use in production
+    ssl: {
+      rejectUnauthorized: false,
+    },
   },
 });
 
