@@ -58,4 +58,7 @@ app.post("/imageURL", (req, res) => {
 });
 
 // root route
+app.get("/", (req, res) => {
+  res.send("This is the home page");
+});
 // => res = this is working
