@@ -1,8 +1,12 @@
+require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const bcrypt = require("bcrypt-nodejs");
 const knex = require("knex");
+
+console.log(process.env.DATABASE_URL);
+
 // Controllers
 const register = require("./controllers/register");
 const signin = require("./controllers/signin");
