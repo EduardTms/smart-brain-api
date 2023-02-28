@@ -24,7 +24,7 @@ const db = knex({
   },
 });
 
-// to do later
+// Environment variable
 const PORT = process.env.PORT;
 
 // app routes to port 3000
